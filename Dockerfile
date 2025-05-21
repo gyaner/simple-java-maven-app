@@ -1,9 +1,11 @@
-# Dockerfile
+FROM tomcat:9.0-jdk17
 
-FROM openjdk:17-jdk-slim
+# Remove default webapps (optional)
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-WORKDIR /app
+# Copy your WAR file to Tomcat's webapps directory
+COPY target/*.war /usr/local/tomcat/webapps/app.war
 
-COPY target/my-app-1.0-SNAPSHOT.jar app.jar
+EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["catalina.sh", "run"]
